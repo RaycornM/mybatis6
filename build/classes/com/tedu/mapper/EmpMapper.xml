@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tedu.mapper.EmpMapper">
+<!-- public List<EmpBean> selectEmpAndDepOne(); -->
+  <select id="selectEmpAndDepOne" 
+  			resultMap="empDepOne">
+  	select e.id eid,e.name ename,e.sex sex,e.salary salary,e.deparmentid,d.id did,d.name dname
+	from emp e left join deparment d
+	on e.deparmentid = d.id;
+  </select>
+  <resultMap type="com.tedu.bean.EmpBean" id="empDepOne">
+  	<id column="eid" property="id" />
+  	<result column="ename" property="name"/>
+  	<result column="sex" property="sex"/>
+  	<result column="salary" property="salary"/>
+  	<result column="deparmentid" property="deparmentid"/>
+  	<!-- 需要将did和dname封装 一对一标签 
+  		 property="bean中的属性" javaType="对象类型" -->
+  	<association property="depBean" javaType="com.tedu.bean.DepBean" >
+  		<id column="did" property="id" />
+  		<result column="dname" property="name" />
+  	</association>
+  </resultMap>
+  
+  <!-- public List<EmpBean> selectEmpAndDepTwo(); -->
+  <select id="selectEmpAndDepTwo" resultMap="EmpDepTwo">
+  	select * from emp
+  </select>
+  <resultMap type="com.tedu.bean.EmpBean" id="EmpDepTwo">
+  	<result column="deparmentid" property="deparmentid" />
+  	<!-- 将deparmentid作为参数传递到DepMapper里面去查询出结果赋予depBean
+  		 com.tedu.mapper.DepMapper.selectDepBeanById使用这个sql语句查询出结果
+  		 javaType="com.tedu.bean.DepBean"查询出来的结果类型
+  		 column=""依据当前主表的某个字段来进行查询(当作参数)
+  	 -->
+  	<association property="depBean" select="com.tedu.mapper.DepMapper.selectDepBeanById" 
+  				 javaType="com.tedu.bean.DepBean" column="deparmentid">
+  	</association>
+  	
+  </resultMap>
+  
+</mapper>

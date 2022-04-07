@@ -1,0 +1,53 @@
+<set>
+适用于update语句，和<if>标签配合使用
+因为set的sql语句描述为： set name = #{name}[,age=#{age}]
+在拼接sql中可能出现最后多个逗号，set标签可以帮忙去掉最后一个
+
+<where>
+适用于所有的条件判断，特别是多条件判断，多条件不确定的判断
+
+<trim>
+适用于插入语句，但是也能替换set和where
+prefix：sql前缀
+suffix：sql后缀
+prefixOverrides：除去前面多余关键字 and or
+suffixOverrides：除去后面多余关键字
+
+例如：
+<set>
+	<if test = "name != null"> name = #{name}, </if>
+	<if test = "tell != null"> tell = #{tell}, </if>
+</set>
+set name = #{name},tell = #{tell} where ...
+
+使用<trim>替换
+<trim prefix="set" suffix="" prefixOverrides="" suffixOverrides=",">
+	<if test = "name != null"> name = #{name}, </if>
+	<if test = "tell != null"> tell = #{tell}, </if>
+</trim>
+
+多表查询
+表与表之间的关系：一对一 一对多 多对一 多对多
+
+员工表  部门表  关系：一对多
+学生表  教师表  关系：多对多
+学生表  班级表  关系：多对一
+多表查询中，将多对多关系拆分成多对一 一对多
+
+大作业
+使用mybatis完成众多限定的表查询工作
+
+员工表  部门表
+员工表是主表，部门表是辅助表，要求查询出所有员工的信息以及部门名称
+select e.id eid,e.name ename,e.sex,e.salary,e.deparmentid,d.id did,d.name dname
+from emp e left join deparment d
+on e.deparmentid = d.id;
+多表查询一对一，可以使用继承的方式，但是如果出现方法名重写，不建议使用
+建议使用：一个bean中包含有另外一个bean的对象的引用
+1.一对一查询，采用多表sql查询的方式
+  sql起到的作用是进行多表链接，字段名称规约
+  resultMap起到的作用是：进行对象bean的封装，不同名称的字段和属性匹配
+2.一对一查询，采用子查询的方式进行
+  这种方式会涉及到多张表的mapper
+
+
