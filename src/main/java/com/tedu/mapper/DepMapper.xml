@@ -9,4 +9,35 @@
 		select * from deparment where id = #{id}
 	</select>
 
+	<!-- public DepBean selectDepAndEmp(); -->
+	<select id="selectDepAndEmp" resultMap="depAndEmp">
+		select e.id eid,e.name ename,e.sex,e.salary,e.deparmentid,d.id did,d.name dname
+		from emp e, deparment d
+		where e.deparmentid = d.id;
+	</select>
+	<resultMap type="com.tedu.bean.DepBean" id="depAndEmp">
+		<id column="did" property="id"/>
+		<result column="dname" property="name"/>
+		<!-- collection指集合 一对多的集合，property是指属性 
+			 在这个属性中要加ofType -->
+		<collection property="list" ofType="com.tedu.bean.EmpBean">
+			<id column="eid" property="id"/>
+			<result column="ename" property="name"/>
+			<result column="salary" property="salary"/>
+		</collection>
+	</resultMap>
+	
+	<!-- public List<DepBean> selectDepAndEmpTwo(); -->
+	<select id="selectDepAndEmpTwo" resultMap="depAndEmpTwo">
+		select * from deparment
+	</select>
+	<resultMap type="com.tedu.bean.DepBean" id="depAndEmpTwo">
+		<id column="id" property="id" />
+		<!-- 一对多 collection代表多，又因为select语句resultType无论返回是单个对象还是集合
+			 都只写单个对象，那么要加javaType="实际类型"是集合就写集合
+			 现在的select中需要的是依据部门id查询出所有员工 -->
+		<collection property="list" select="com.tedu.mapper.EmpMapper.selectEmpByDepId" javaType="java.util.List" column="id">
+		</collection>
+	</resultMap>
+
 </mapper>

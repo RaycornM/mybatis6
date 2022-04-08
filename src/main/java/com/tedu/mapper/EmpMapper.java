@@ -25,4 +25,7 @@ on e.deparmentid = d.id;
 	 */
 	public List<EmpBean> selectEmpAndDepTwo();
 	
+	//部门id查员工
+	public List<EmpBean> selectEmpByDepId(int depId);
+	
 }

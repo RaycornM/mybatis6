@@ -49,5 +49,19 @@ on e.deparmentid = d.id;
   resultMap起到的作用是：进行对象bean的封装，不同名称的字段和属性匹配
 2.一对一查询，采用子查询的方式进行
   这种方式会涉及到多张表的mapper
+3.一对多查询 A，采用多表sql查询的方式
+  多对一 一对多其实是不同的主表和从表的关系描述
+  如：员工表和部门表   员工表是主表，那么就是多对一，就要采用上面1和2的查询方式
+      每个部门分别有多少员工  部门表为主表，那么这里就是一对多，一个部门信息对多个部门信息
+select e.id eid,e.name ename,e.sex,e.salary,e.deparmentid,d.id did,d.name dname
+from emp e, deparment d
+where e.deparmentid = d.id;
+首先在一表中添加一个集合用于存储多表数据
+然后在一表的xml中编写xml来完成数据的映射
+
+4.一对多查询B，采用嵌入式（子查询）查询方式，和前面的2一样
+
+mybatis的最后
+逆向工程，通过数据库表字段，自动生成java代码
 
 

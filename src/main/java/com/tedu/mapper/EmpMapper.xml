@@ -41,4 +41,9 @@
   	
   </resultMap>
   
+  <!-- public List<EmpBean> selectEmpByDepId(int depId); -->
+  <select id="selectEmpByDepId" parameterType="int" resultType="com.tedu.bean.EmpBean">
+  	select * from emp where deparmentid = #{deparmentid}
+  </select>
+  
 </mapper>

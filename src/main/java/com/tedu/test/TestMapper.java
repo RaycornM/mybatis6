@@ -37,5 +37,26 @@ public class TestMapper extends SuperTestMapper{
 			System.out.println(bean);
 		}
 	}
+	
+	/*Ò»¶Ô¶à*/
+	@Test
+	public void Test4() {
+		DepMapper mapper = session.getMapper(DepMapper.class);
+		List<DepBean> list = mapper.selectDepAndEmp();
+		for(DepBean bean:list) {
+			System.out.println(bean);
+			System.out.println("emp:"+bean.getList());
+		}
+	}
+	
+	@Test
+	public void Test5() {
+		DepMapper mapper = session.getMapper(DepMapper.class);
+		List<DepBean> list = mapper.selectDepAndEmpTwo();
+		for(DepBean bean:list) {
+			System.out.println(bean);
+			System.out.println("emp:"+bean.getList());
+		}
+	}
 }
 
